@@ -8,7 +8,7 @@ class Downloader
 	private $errors = [];
 	private $download_path = "";
 
-	public function __construct($post, $audio_only)
+	public function __construct($post=null, $audio_only=null)
 	{
 		$this->config = require dirname(__DIR__).'/config/config.php';
 		$this->download_path = dirname(__DIR__).'/'.$this->config["outputFolder"];
@@ -178,7 +178,51 @@ class Downloader
 			}
 		}
 	}
-
+	private function get_youtube_id($url)
+	{
+		$cmd = "youtube-dl --no-warnings --get-filename ".$url;
+		$result=shell_exec($cmd);
+$result=str_replace(" ","_", $result);
+		return str_replace("\n", "", $result);
+	}
+	public function get_status_files()
+	{
+		$folder=$this->download_path.'/';
+		$files=array();
+		foreach(glob($folder.'*.json') as $file) {
+				$file=str_replace($folder, "",$file);
+ 				 $files[]=$file;
+			}
+		
+		return $files;
+	}
+	public function get_status_file($id)
+	{
+		$folder=$this->download_path.'/';
+		$id=str_replace('.json',"",$id);
+		$id=str_replace('status-',"",$id);
+		$status_file="status-".$id.".json";
+		$readfile=file_get_contents($folder.$status_file);
+		return $readfile;
+	}
+	public function get_status($id)
+	{
+		 $status_file=$this->get_status_file($id);
+		
+		$pattern="/\[download\](.*)of(.*)at(.*)eta(.*)/i";
+		preg_match_all($pattern, $status_file, $matches);
+		unset($matches[0]);
+		$matches['1']=str_replace(" ","",$matches['1']);
+		$matches['2']=str_replace(" ","",$matches['2']);
+		$matches['3']=str_replace(" ","",$matches['3']);
+		$matches['4']=str_replace(" ","",$matches['4']);		
+		$status=array();
+		$status['percentage']=array_pop($matches[1]);
+		$status['size']=array_pop($matches[2]);
+		$status['speed']=array_pop($matches[3]);
+		$status['eta']=array_pop($matches[4]);
+		return $status;
+	}
 	private function do_download()
 	{
 		$cmd = "youtube-dl";
@@ -189,15 +233,17 @@ class Downloader
 		{
 			$cmd .= " -x ";
 		}
-
+        $cmd .=" -f best";
 		foreach($this->urls as $url)
 		{
 			$cmd .= " ".$url;
-		}
+			$id=$this->get_youtube_id($url);
+		
+        }
 
 		$cmd .= " --restrict-filenames"; // --restrict-filenames is for specials chars
-		$cmd .= " > /dev/null & echo $!";
-
+		$cmd .= " --newline > '".$this->download_path."/status-".$id.".json' & echo $!";
+        
 		shell_exec($cmd);
 	}
 }
