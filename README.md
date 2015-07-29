@@ -6,7 +6,13 @@
 ## Description
 Youtube-dl WebUI is a small web interface for youtube-dl. It allows you to host your own video downloader. 
 After the download you can stream your videos from your web browser or save it on your computer directly from the list page.
-It supports simultaneous downloads in background.
+It supports simultaneous downloads in background . It also displays the current speed size percentage and expected time for completion.
+
+
+## Expected Features
+- Live Streaming from Video Sites without downloading
+- Live update of progress via AJAX
+- Watching Videos Directly on site
 
 ### You can now extract the audio of a video and download multiple videos at the same time !
 
