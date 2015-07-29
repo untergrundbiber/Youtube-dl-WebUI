@@ -3,7 +3,7 @@
 class FileHandler
 {
 	private $config = [];
-	private $videos_ext = ".{avi,mp4,flv}";
+	private $videos_ext = ".{avi,mp4,flv,mkv}";
 	private $musics_ext = ".{mp3,ogg,m4a}";
 
 	public function __construct()
@@ -81,6 +81,35 @@ class FileHandler
 		}
 	}
 
+	public function get_download_link($id, $type)
+	{
+		$folder = dirname(__DIR__).'/'.$this->config["outputFolder"].'/';
+		$i = 0;
+
+		if($type === 'v')
+		{
+			$exts = $this->videos_ext;
+		}
+		elseif($type === 'm')
+		{
+			$exts = $this->musics_ext;
+		}
+		else
+		{
+			return;
+		}
+
+		foreach(glob($folder.'*'.$exts, GLOB_BRACE) as $file)
+		{
+			if($i == $id)
+			{
+				return $this->get_site_protocol().$_SERVER['HTTP_HOST'].str_replace($_SERVER['DOCUMENT_ROOT'], '', $file);
+				
+			}
+			$i++;
+		}
+	}
+
 	private function outuput_folder_exists()
 	{
 		if(!is_dir($this->config['outputFolder']))
@@ -110,6 +139,9 @@ class FileHandler
 	public function get_downloads_folder()
 	{
 		return $this->config["outputFolder"];
+	}
+	public function get_site_protocol() {
+    if(isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) || isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&  $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')  return $protocol = 'https://'; else return $protocol = 'http://';
 	}
 }
 
