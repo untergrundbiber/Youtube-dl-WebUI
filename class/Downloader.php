@@ -69,7 +69,8 @@ class Downloader
 
 	public static function background_jobs()
 	{
-		return shell_exec("ps aux | grep -v grep | grep -v \"youtube-dl -U\" | grep youtube-dl | wc -l");
+		$res = shell_exec("ps aux | grep -v grep | grep -v \"youtube-dl -U\" | grep youtube-dl | wc -l");
+    return (int) trim(preg_replace('/\s\s+/', ' ', $res));
 	}
 
 	public static function max_background_jobs()
@@ -89,11 +90,13 @@ class Downloader
 			foreach($output as $line)
 			{
 				$line = explode(' ', preg_replace ("/ +/", " ", $line), 4);
+        $music = (strpos( $line[3], '-x') !== false) ;
 				$bjs[] = array(
 					'user' => $line[0],
 					'pid' => $line[1],
 					'time' => $line[2],
-					'cmd' => $line[3]
+					'cmd' => $line[3],
+          'music' => $music
 					);
 			}
 

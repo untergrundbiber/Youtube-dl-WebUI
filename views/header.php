@@ -6,7 +6,66 @@
 		<link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	</head>
-	<body>
+  <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript">
+    function format_background_jobs(j) {
+      return j.background_jobs + "/" + j.max_background_jobs;
+    }
+
+    function format_menu(j) {
+      html = ""
+	    if(j.get_current_background_jobs != null)
+	    {
+        jobs = j.get_current_background_jobs
+        for (i = 0, len = jobs.length; i < len; i++)
+		    {
+			    if (jobs[i]["music"]) 
+			    {
+            //Music
+            html += "<li><a href=\"#\"><i class=\"fa fa-music\"></i> Elapsed time : "  + jobs[i]["time"] + "</a></li>";				    
+			    }
+			    else
+			    {
+            html += "<li><a href=\"#\"><i class=\"fa fa-video-camera\"></i> Elapsed time : " + jobs[i]["time"] + "</a></li>";
+			    }
+		    }
+
+		    html += "<li class=\"divider\"></li>";
+		    html += "<li><a href=\"./index.php?kill=all\">Kill all downloads</a></li>";
+	    }
+	    else
+	    {
+		    html += "<li><a>No jobs !</a></li>";
+	    }
+
+      return html;
+    }
+
+    function update_background_jobs() 
+    {  
+      $.ajax({
+        url : "api.php",
+        data : "f=background_jobs",
+        complete : function (xhr, res) 
+        {   
+          j = JSON.parse(xhr.responseText);
+
+          s = format_background_jobs(j);
+          $("#background_jobs").html(s);
+
+          s = format_menu(j);
+          $("#background_jobs_menu").html(s);
+
+          if (j.background_jobs > 0)
+             $("#jobs").attr ( { style : "font-weight: bold" } );
+          else
+             $("#jobs").attr ( { style : "font-weight: normal" } );
+          
+        } 
+      });  
+    }
+  </script>
+	<body onload="window.setInterval(update_background_jobs,5000);update_background_jobs()">
 		<div class="navbar navbar-default">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
@@ -26,34 +85,10 @@
 						{
 					?>
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-							<?php if(Downloader::background_jobs() > 0) echo "<b>"; ?>Background downloads : <?php echo Downloader::background_jobs()." / ".Downloader::max_background_jobs(); if(Downloader::background_jobs() > 0) echo "</b>"; ?> <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<?php
-								if(Downloader::get_current_background_jobs() != null)
-								{
-									foreach(Downloader::get_current_background_jobs() as $key)
-									{
-										if (strpos($key['cmd'], '-x') !== false) //Music
-										{
-											echo "<li><a href=\"#\"><i class=\"fa fa-music\"></i> Elapsed time : ".$key['time']."</a></li>";
-										}
-										else
-										{
-											echo "<li><a href=\"#\"><i class=\"fa fa-video-camera\"></i> Elapsed time : ".$key['time']."</a></li>";
-										}
-									}
-
-									echo "<li class=\"divider\"></li>";
-									echo "<li><a href=\"./index.php?kill=all\">Kill all downloads</a></li>";
-								}
-								else
-								{
-									echo "<li><a>No jobs !</a></li>";
-								}
-
-							?>
-						</ul>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" id="jobs" aria-expanded="false" onclick="update_background_jobs();">
+            Background downloads : <span id="background_jobs">...</span>
+            <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu" id="background_jobs_menu"></ul>
 					</li>
 					<?php
 						}
@@ -69,3 +104,6 @@
 				</ul>
 			</div>
 		</div>
+
+
+
