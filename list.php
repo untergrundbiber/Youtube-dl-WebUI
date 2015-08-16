@@ -3,9 +3,19 @@
 <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
 <script>
 function show_video(i) {
-  $("#preview"+i).toggle();
-  $("#preview"+i+"_html5_api").toggle();
-  $("#preview"+i+"_html5_api").get(0).play()
+  var preview = $("#preview"+i)
+  var video = $("#preview"+i+"_html5_api")
+
+  if (preview.is(":visible")){
+    preview.hide();
+    video.hide();
+    video.get(0).pause()
+  } else {
+    preview.show();
+    video.show();
+    video.get(0).play()
+  }
+  return false;
 }
 
 </script>
@@ -69,7 +79,7 @@ function show_video(i) {
 				{
           $video_url = $file->get_downloads_folder().'/'.$f["name"];
 					echo "<tr>";
-					echo "<td><a href=\"#\" onclick=\"show_video(".$i.");\" >".$f["name"]."</a>";
+					echo "<td><a href=\"javascript:void(0)\" onclick=\"show_video(".$i.");\" >".$f["name"]."</a>";
           echo "<video hidden id=\"preview".$i."\" class=\"video-js vjs-default-skin\" controls preload=\"none\"  width=\"320\" height=\"240\"  data-setup='{}'>
   <source src=\"".$video_url."\" type='video/mp4'>
   <p class=\"vjs-no-js\">
