@@ -6,7 +6,7 @@
 	$session = Session::getInstance();
 	$file = new FileHandler;
 
-  $lastVideos = $file->listVideos(3);
+  $lastVideos = $file->lastVideos(3);
 
 	require 'views/header.php';
 
