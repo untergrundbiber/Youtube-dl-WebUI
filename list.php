@@ -1,19 +1,16 @@
-<link href="http://vjs.zencdn.net/4.12/video-js.css" rel="stylesheet">
-<script src="http://vjs.zencdn.net/4.12/video.js"></script>
+
 <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
 <script>
 function show_video(i) {
   var preview = $("#preview"+i)
-  var video = $("#preview"+i+"_html5_api")
+  var video = document.getElementById("preview"+i); 
 
   if (preview.is(":visible")){
     preview.hide();
-    video.hide();
-    video.get(0).pause()
+    video.pause()
   } else {
     preview.show();
-    video.show();
-    video.get(0).play()
+    video.play();
   }
   return false;
 }
@@ -66,6 +63,7 @@ function show_video(i) {
 					<tr>
 						<th style="min-width:700px; height:35px">Title</th>
 						<th style="min-width:80px">Size</th>
+						<th style="min-width:80px">Preview</th>
 						<th style="min-width:110px">Download link</th>
 						<th style="min-width:110px">Delete link</th>
 					</tr>
@@ -80,7 +78,7 @@ function show_video(i) {
           $video_url = $file->get_downloads_folder().'/'.$f["name"];
 					echo "<tr>";
 					echo "<td><a href=\"javascript:void(0)\" onclick=\"show_video(".$i.");\" >".$f["name"]."</a>";
-          echo "<video hidden id=\"preview".$i."\" class=\"video-js vjs-default-skin\" controls preload=\"none\"  width=\"320\" height=\"240\"  data-setup='{}'>
+          echo "<br/><video hidden id=\"preview".$i."\" class=\"video-js vjs-default-skin\" controls preload=\"none\"  width=\"320\" height=\"240\"  data-setup='{}'>
   <source src=\"".$video_url."\" type='video/mp4'>
   <p class=\"vjs-no-js\">
     To view this video please enable JavaScript, and consider upgrading to a web browser
@@ -89,6 +87,7 @@ function show_video(i) {
 </video>";
           echo "</td>";
 					echo "<td>".$f["size"]."</td>";
+          echo "<td><a href=\"javascript:void(0)\" onclick=\"show_video(".$i.");\" class=\"btn btn-danger btn-sm\">Preview</a>";
           echo "<td><a href=\"".$video_url."\" download class=\"btn btn-danger btn-sm\">Download</a></td>";
 					echo "<td><a href=\"./list.php?delete=$i&type=$t\" class=\"btn btn-danger btn-sm\">Delete</a></td>";
 					echo "</tr>";
