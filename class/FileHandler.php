@@ -48,7 +48,7 @@ class FileHandler
     $first_videos = [];
     foreach($videos as $v){
       array_push($first_videos,$v);
-      if (count($first_videos) >= $n)  return $videos;  
+      if (count($first_videos) >= $n)  return $first_videos;  
     }
 
     return $first_videos;
