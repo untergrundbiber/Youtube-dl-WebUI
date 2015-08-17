@@ -11,7 +11,7 @@ class FileHandler
 		$this->config = require dirname(__DIR__).'/config/config.php';
 	}
 
-	public function listVideos($maxItems = PHP_INT_MAX)
+	public function listVideos()
 	{
 		$videos = [];
 
@@ -27,22 +27,31 @@ class FileHandler
 			$video["mtime"] = filemtime($file);
 			
 			$videos[] = $video;
-
-      if (count($videos) >= $maxItems)  return $videos;
 		}
 
 		return $videos;
 	}
 
-  public function compareByTime($a, $b) {
-    $b["mtime"] - $a["mtime"];
+  static public function compareByTime($a, $b) {
+    return $b["mtime"] - $a["mtime"];
   }
 
-  public function lastVideos($maxItems = PHP_INT_MAX) 
+  public function lastVideos($n) 
   {
+
     $videos = $this->listVideos();
-    usort($videos,compareByTime);
-    return $videos;
+    usort($videos,array("FileHandler","compareByTime"));
+
+    if($n < 0)
+      return $videos;
+
+    $first_videos = [];
+    foreach($videos as $v){
+      array_push($first_videos,$v);
+      if (count($first_videos) >= $n)  return $videos;  
+    }
+
+    return $first_videos;
   }
 
 	public function listMusics()
