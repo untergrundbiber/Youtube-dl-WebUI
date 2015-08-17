@@ -87,8 +87,8 @@ function show_video(i) {
 </video>";
           echo "</td>";
 					echo "<td>".$f["size"]."</td>";
-          echo "<td><a href=\"javascript:void(0)\" onclick=\"show_video(".$i.");\" class=\"btn btn-danger btn-sm\">Preview</a>";
-          echo "<td><a href=\"".$video_url."\" download class=\"btn btn-danger btn-sm\">Download</a></td>";
+          echo "<td><a href=\"javascript:void(0)\" onclick=\"show_video(".$i.");\" class=\"btn btn-sm\">Preview</a>";
+          echo "<td><a href=\"".$video_url."\" download class=\"btn btn-sm\">Download</a></td>";
 					echo "<td><a href=\"./list.php?delete=$i&type=$t\" class=\"btn btn-danger btn-sm\">Delete</a></td>";
 					echo "</tr>";
 					$i++;

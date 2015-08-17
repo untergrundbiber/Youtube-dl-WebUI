@@ -6,6 +6,8 @@
 	$session = Session::getInstance();
 	$file = new FileHandler;
 
+  $lastVideos = $file->listVideos(3);
+
 	require 'views/header.php';
 
 	if(!$session->is_logged_in())
@@ -89,6 +91,37 @@
 						</div>
 					</div>
 				</div>
+			</div>
+      <div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-info">
+						<div class="panel-heading"><h3 class="panel-title">Last videos</h3></div>
+						<div class="panel-body">
+              <div class="container">
+                <div class="row">
+							    <?php
+                    $i = 0;
+                    foreach($lastVideos as $f)
+				            {
+                      echo "<div class=\"col-lg-4\">";
+                      $video_url = $file->get_downloads_folder().'/'.$f["name"];
+                      echo "<video id=\"preview".$i."\" class=\"video-js vjs-default-skin\" controls preload=\"none\"  width=\"320\" height=\"240\"  data-setup='{}'>
+                        <source src=\"".$video_url."\" type='video/mp4'>
+                        <p class=\"vjs-no-js\">
+                          To view this video please enable JavaScript, and consider upgrading to a web browser
+                          that <a href=\"http://videojs.com/html5-video-support/\" target=\"_blank\">supports HTML5 video</a>
+                        </p>
+                      </video><p>".$f["name"]."</p>";
+                      
+                      echo "</div>";
+					            $i++;
+				            }
+                  ?>
+						    </div>
+						  </div>
+						</div>
+					</div>
+				</div>        
 			</div>
 		</div>
 <?php
