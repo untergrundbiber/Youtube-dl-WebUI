@@ -166,7 +166,7 @@ class Downloader
 
 	private function is_valid_url($url)
 	{
-		return filter_var($url, FILTER_VALIDATE_URL);
+		return filter_var(trim($url), FILTER_VALIDATE_URL);
 	}
 
 	private function check_outuput_folder()
