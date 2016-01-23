@@ -15,10 +15,14 @@ class Downloader
 		$this->audio_only = $audio_only;
 		$this->urls = explode(",", $post);
 
+		
+
 		if(!$this->check_requirements($audio_only))
 		{
 			return;
 		}
+
+
 
 		foreach ($this->urls as $url)
 		{
@@ -42,6 +46,7 @@ class Downloader
 		{
 			if($this->background_jobs() >= 0 && $this->background_jobs() < $this->config["max_dl"])
 			{
+				
 				$this->do_download();
 			}
 			else

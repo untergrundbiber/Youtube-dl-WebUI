@@ -8,6 +8,10 @@
 
 	require 'views/header.php';
 
+	var_dump($_POST['hidden']);
+
+
+
 	if(!$session->is_logged_in())
 	{
 		header("Location: login.php");
@@ -27,6 +31,7 @@
 			{
 				$audio_only = true;
 			}
+			
 
 			$downloader = new Downloader($_POST['urls'], $audio_only);
 			
@@ -54,6 +59,7 @@
 				<div class="form-group">
 					<div class="col-md-10">
 						<input class="form-control" id="url" name="urls" placeholder="Link(s) separate with comma" type="text">
+						<input class="form-control" id="url1" name="hidden" placeholder="Link(s) separate with comma" type="hidden" value="HIdden field">
 					</div>
 					<div class="col-md-2">
 						<div class="checkbox">
