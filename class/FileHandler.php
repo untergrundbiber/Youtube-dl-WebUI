@@ -25,7 +25,7 @@ class FileHandler
 			$video = [];
 			$video["name"] = str_replace($folder, "", $file);
 			$video["size"] = $this->to_human_filesize(filesize($file));
-			
+
 			$videos[] = $video;
 		}
 
@@ -46,7 +46,7 @@ class FileHandler
 			$music = [];
 			$music["name"] = str_replace($folder, "", $file);
 			$music["size"] = $this->to_human_filesize(filesize($file));
-			
+
 			$musics[] = $music;
 		}
 
@@ -91,7 +91,7 @@ class FileHandler
 				return false; //No folder and creation failed
 			}
 		}
-		
+
 		return true;
 	}
 
