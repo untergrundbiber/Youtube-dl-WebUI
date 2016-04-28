@@ -15,7 +15,7 @@ class FileHandler
 	{
 		$videos = [];
 
-		if(!$this->outuput_folder_exists())
+		if(!$this->output_folder_exists())
 			return;
 
 		$folder = $this->get_downloads_folder().'/';
@@ -36,7 +36,7 @@ class FileHandler
 	{
 		$musics = [];
 
-		if(!$this->outuput_folder_exists())
+		if(!$this->output_folder_exists())
 			return;
 
 		$folder = $this->get_downloads_folder().'/';
@@ -81,7 +81,7 @@ class FileHandler
 		}
 	}
 
-	private function outuput_folder_exists()
+	private function output_folder_exists()
 	{
 		if(!is_dir($this->get_downloads_folder()))
 		{
