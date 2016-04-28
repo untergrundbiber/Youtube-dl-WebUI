@@ -86,7 +86,7 @@ class FileHandler
 		if(!is_dir($this->config['outputFolder']))
 		{
 			//Folder doesn't exist
-			if(!mkdir('./'.$this->config['outputFolder'], 0777))
+			if(!mkdir('./'.$this->config['outputFolder'], 0755))
 			{
 				return false; //No folder and creation failed
 			}
