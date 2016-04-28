@@ -167,7 +167,7 @@ class Downloader
 		if(!is_dir($this->download_path))
 		{
 			//Folder doesn't exist
-			if(!mkdir($this->download_path, 0775))
+			if(!mkdir($this->download_path, 0755))
 			{
 				$this->errors[] = "Output folder doesn't exist and creation failed !";
 			}
