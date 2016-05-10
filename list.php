@@ -53,11 +53,16 @@
 				$i = 0;
 				$totalSize = 0;
 
+				$config = [];
+				$config = require dirname(__DIR__).'/Youtube-dl-WebUI/config/config.php';
 				foreach($files as $f)
 				{
 					echo "<tr>";
-					//echo "<td><a href=\"".$file->get_downloads_folder().'/'.$f["name"]."\" download>".$f["name"]."</a></td>";
-					echo "<td><a href='downloads/" . $f["name"] . "'> " . $f["name"] . "</a></td>";	
+					if(!$config["Downlaod"]){
+						echo "<td><a href='".$config["outputFolder"]."/" . $f["name"] . "'> " . $f["name"] . "</a></td>";	
+					}else{
+						echo "<td><a href=\"".$config["outputFolder"].'/'.$f["name"]."\" download>".$f["name"]."</a></td>";
+					}
 					echo "<td>".$f["size"]."</td>";
 					echo "<td><a href=\"./list.php?delete=$i&type=$t\" class=\"btn btn-danger btn-sm\">Delete</a></td>";
 					echo "</tr>";
