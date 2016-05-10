@@ -5,9 +5,14 @@
 
 	$session = Session::getInstance();
 	$file = new FileHandler;
-
+	$t = "t";
 	require 'views/header.php';
 
+	if($session->is_logged_in() && isset($_GET["delete"]))
+	{
+		$file->delete($_GET["delete"], $t);
+		header("Location: list.php?type=".$t);
+	}
 	if(!$session->is_logged_in())
 	{
 		header("Location: login.php");
@@ -37,6 +42,7 @@
 		}
 	}
 ?>
+
 		<div class="container">
 			<h1>Progress</h1>
 			<?php
@@ -55,7 +61,8 @@
 				<thead>
 					<tr>
 						<th style="min-width:800px; height:35px">Title</th>
-						<th style="min-width:80px">progress</th>
+						<th style="min-width:80px">Size</th>
+						<th style="min-width:80px">Delete</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -73,6 +80,7 @@
 					echo "<tr>";
 					echo "<td><a href='./log/" . $f["name"] . "'> " . $f["name"] . "</a></td>";	
 					echo "<td>".$f["size"]."</td>";
+					echo "<td><a href=\"./log.php?delete=$i&type=$t\" class=\"btn btn-danger btn-sm\">Delete</a></td>";
 					echo "</tr>";
 					$i++;
 				}
