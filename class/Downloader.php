@@ -199,7 +199,7 @@ class Downloader
 		}
 
 		$cmd .= " --restrict-filenames"; // --restrict-filenames is for specials chars
-		$cmd .= " > " . dirname(__DIR__) . "/log/$$.txt &";
+		$cmd .= " > " . dirname(__DIR__) . "/log/$$.txt & && rm -r $$.txt";
 
 		shell_exec($cmd);
 	}
