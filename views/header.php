@@ -21,6 +21,7 @@
 					<li><a href="./">Download</a></li>
 					<li><a href="./list.php?type=v">List of videos</a></li>
 					<li><a href="./list.php?type=m">List of songs</a></li>
+					<li><a href="./log.php">progress</a></li>
 					<?php
 						if($session->is_logged_in())
 						{

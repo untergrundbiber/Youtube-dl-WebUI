@@ -51,6 +51,27 @@ class FileHandler
 		}
 
 		return $musics;
+	}	
+	
+	public function listLogFiles()
+	{
+		$logs = [];
+
+		if(!$this->outuput_folder_exists())
+			return;
+
+		$folder = dirname(__DIR__).'/log/';
+
+		foreach(glob($folder.'*', GLOB_BRACE) as $file)
+		{
+			$log = [];
+			$log["name"] = str_replace($folder, "", $file);
+			$log["size"] = $this->to_human_filesize(filesize($file));
+			
+			$logs[] = $log;
+		}
+
+		return $logs;
 	}
 
 	public function delete($id, $type)
