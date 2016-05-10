@@ -11,7 +11,7 @@
 	if($session->is_logged_in() && isset($_GET["delete"]))
 	{
 		$file->delete($_GET["delete"], $t);
-		header("Location: list.php?type=".$t);
+		header("Location: log.php?type=".$t);
 	}
 	if(!$session->is_logged_in())
 	{
