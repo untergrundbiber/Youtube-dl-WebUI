@@ -190,7 +190,7 @@ class Downloader
 
 		if($this->audio_only)
 		{
-			$cmd .= " -x ";
+			$cmd .= " -x --audio-format mp3 ";
 		}
 
 		foreach($this->urls as $url)
