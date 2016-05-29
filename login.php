@@ -1,33 +1,30 @@
 <?php
-	require_once 'class/Session.php';
-	require_once 'class/Downloader.php';
+    require_once 'class/Session.php';
+    require_once 'class/Downloader.php';
 
-	$session = Session::getInstance();
-	$loginError = "";
+    $session = Session::getInstance();
+    $loginError = "";
 
-	if(isset($_POST["password"]))
-	{
-		if($session->login($_POST["password"]))
-		{
-			header("Location: index.php");
-		}
-		else
-		{
-			$loginError = "Wrong password !";
-		}
-	}
+    if (isset($_POST["password"])) {
+        if ($session->login($_POST["password"])) {
+            header("Location: index.php");
+        } else {
+            $loginError = "Wrong password !";
+        }
+    }
 ?>
 
 <?php require 'views/header.php'; ?>
 <div class="container">
 	<?php
-		if($loginError !== "")
-		{
-	?>
-	<div class="alert alert-danger" role="alert"><?php echo $loginError; ?></div>
+        if ($loginError !== "") {
+            ?>
+	<div class="alert alert-danger" role="alert"><?php echo $loginError;
+            ?></div>
 	<?php
-		}
-	?>
+
+        }
+    ?>
 	<div class="row">
 		<div class="col-md-4"></div>
 		<div class="col-md-4">
