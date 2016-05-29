@@ -34,14 +34,14 @@
 							<?php if (Downloader::get_current_background_jobs() != null): ?>
                                 <?php foreach (Downloader::get_current_background_jobs() as $key): ?>
                                     <?php if (strpos($key['cmd'], '-x') !== false): ?>
-                                        <li><a href=\"#\"><i class=\"fa fa-music\"></i> Elapsed time : "<?php echo $key['time']; ?>"</a></li>
+                                        <li><a href="#"><i class="fa fa-music"></i> Elapsed time : "<?php echo $key['time']; ?>"</a></li>
                                     <?php else: ?>
-                                        <li><a href=\"#\"><i class=\"fa fa-video-camera\"></i> Elapsed time : "<?php echo $key['time']; ?>"</a></li>
+                                        <li><a href="#"><i class="fa fa-video-camera"></i> Elapsed time : "<?php echo $key['time']; ?>"</a></li>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
 
-                                <li class=\"divider\"></li>
-                                <li><a href=\"./index.php?kill=all\">Kill all downloads</a></li>
+                                <li class="divider"></li>
+                                <li><a href="./index.php?kill=all">Kill all downloads</a></li>
                             <?php else: ?>
                                 <li><a>No jobs !</a></li>
                             <?php endif; ?>

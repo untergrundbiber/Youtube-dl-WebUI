@@ -124,6 +124,10 @@ class Downloader
         }
     }
 
+    /**
+     * Kill tous les downloads
+     * @return void
+     */
     public static function kill_them_all()
     {
         exec("ps -A -o pid,cmd | grep -v grep | grep youtube-dl | awk '{print $1}'", $output);
