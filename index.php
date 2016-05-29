@@ -60,8 +60,8 @@ if (!$session->is_logged_in()) {
 					<div class="panel panel-info">
 						<div class="panel-heading"><h3 class="panel-title">Info</h3></div>
 						<div class="panel-body">
-							<p>Free space : <?php echo $file->free_space(); ?></b></p>
-							<p>Download folder : <?php echo $file->get_downloads_folder(); ?></p>
+							<p><b>Free space :</b> <kbd><?php echo $file->free_space(); ?><kbd></p>
+							<p><b>Download folder :</b> <kbd><?php echo $file->get_downloads_folder(); ?><kbd></p>
 						</div>
 					</div>
 				</div>
