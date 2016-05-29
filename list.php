@@ -43,7 +43,7 @@ require_once 'views/header.php';
 				</thead>
 				<tbody>
     			<?php
-                $i         = 0;
+                $i = 0;
                 foreach ($files as $f): ?>
                     <tr>
                         <td><a href="<?php echo $file->get_downloads_folder().'/'.$f["name"]; ?>" download>"<?php echo $f["name"]; ?>"</a></td>

@@ -2,10 +2,21 @@
 
 class Session
 {
+    /**
+     * Stock les variables de configurations présentes dans config.php
+     * @var array
+     */
     private $config = [];
 
+    /**
+     * Instance de Session
+     * @var [type]
+     */
     private static $_instance;
 
+    /**
+     * Constructeur de Session
+     */
     public function __construct()
     {
         session_start();
@@ -21,6 +32,10 @@ class Session
         }
     }
 
+    /**
+     * Permet de retourner une instance de Session
+     * @return POO Instance de Session
+     */
     public static function getInstance()
     {
         if (is_null(self::$_instance)) {
@@ -30,6 +45,11 @@ class Session
         return self::$_instance;
     }
 
+    /**
+     * Connexion
+     * @param  string $password Password
+     * @return boolean          Connecté ou pas
+     */
     public function login($password)
     {
         if ($this->config["password"] === hash("sha256",$password)) {
@@ -41,14 +61,22 @@ class Session
         }
     }
 
+    /**
+     * Savoir si on est déjà connectés
+     * @return boolean Connecté ou déconnecté
+     */
     public function is_logged_in()
     {
         return $_SESSION["logged_in"];
     }
 
+    /**
+     * Permet de se déconnecter
+     * @return void 
+     */
     public function logout()
     {
-        $_SESSION = array();
+        unset($_SESSION);
         session_destroy();
     }
 }

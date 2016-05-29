@@ -47,7 +47,7 @@ if (!$session->is_logged_in()) {
 					<div class="col-md-2">
 						<div class="checkbox">
 							<label>
-								<input type="checkbox" name="audio"> Audio Only
+								<input type="checkbox" name="audio">Audio Only
 							</label>
 						</div>
 					</div>

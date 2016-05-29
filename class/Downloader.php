@@ -3,12 +3,41 @@ include_once 'FileHandler.php';
 
 class Downloader
 {
+    /**
+     * URL des fichiers à télécharger
+     * @var array
+     */
     private $urls          = [];
+
+    /**
+     * Config contenant config.php
+     * @var array
+     */
     private $config        = [];
+
+    /**
+     * Download audio only
+     * @var boolean
+     */
     private $audio_only    = false;
+
+    /**
+     * Tableau pour contenir les éventuelles erreurs
+     * @var array
+     */
     private $errors        = [];
+
+    /**
+     * Chemin de download
+     * @var string
+     */
     private $download_path = "";
 
+    /**
+     * Constructeur de la classe Downloader
+     * @param array   $post       Array contenant les fichiers à DL
+     * @param boolean $audio_only Download only audio
+     */
     public function __construct($post, $audio_only)
     {
         $this->config = require dirname(__DIR__) . '/config/config.php';
@@ -49,17 +78,29 @@ class Downloader
         }
     }
 
+    /**
+     * Permet l'affichage des jobs en cours d'exécution en arrière plan
+     * @return integer Nombres de background jobs en cours
+     */
     public static function background_jobs()
     {
-        return shell_exec("ps aux | grep -v grep | grep -v \"youtube-dl -U\" | grep youtube-dl | wc -l");
+        return shell_exec("ps aux | grep -v grep | grep -v \"youtube-dl -U\" | grep youtube-dl -c");
     }
 
+    /**
+     * Nombre de background jobs simultanés possible
+     * @return integer Nombre de jobs simultanés possible
+     */
     public static function max_background_jobs()
     {
         $config = require dirname(__DIR__) . '/config/config.php';
         return $config["max_dl"];
     }
 
+    /**
+     * Permet d'obtenir des informations sur les background jobs en cours
+     * @return array Tableau contenant username/pid/time/cmd en cours
+     */
     public static function get_current_background_jobs()
     {
         exec("ps -A -o user,pid,etime,cmd | grep -v grep | grep -v \"youtube-dl -U\" | grep youtube-dl", $output);
@@ -69,12 +110,12 @@ class Downloader
         if (count($output) > 0) {
             foreach ($output as $line) {
                 $line  = explode(' ', preg_replace("/ +/", " ", $line), 4);
-                $bjs[] = array(
+                $bjs[] = [
                     'user' => $line[0],
                     'pid'  => $line[1],
                     'time' => $line[2],
                     'cmd'  => $line[3],
-                );
+                ];
             }
 
             return $bjs;
@@ -103,6 +144,11 @@ class Downloader
         }
     }
 
+    /**
+     * Requierments requis pour utiliser cette WebUI
+     * @param  boolean $audio_only Boolean afin de savoir si l'on doit avoir un extracteur installé
+     * @return boolean             Boolean pour voir s'il y a des erreurs ou pas
+     */
     private function check_requirements($audio_only)
     {
         if ($this->is_youtubedl_installed() != 0) {
@@ -125,38 +171,57 @@ class Downloader
         return true;
     }
 
+    /**
+     * Permet de savoir si youtube-dl est dans la variable $PATH
+     * @return boolean YoutubeDL installé ou pas
+     */
     private function is_youtubedl_installed()
     {
         exec("which youtube-dl", $out, $r);
         return $r;
     }
 
+    /**
+     * Permet de savoir si l'extracteur configuré est installé
+     * @return boolean Si l'extrateur est installé ou pas
+     */
     private function is_extracter_installed()
     {
         exec("which " . $this->config["extracter"], $out, $r);
         return $r;
     }
 
+    /**
+     * Pour voir si l'URL est valide ou pas
+     * @param  string  $url URL
+     * @return boolean      URL valide ou pas
+     */
     private function is_valid_url($url)
     {
         return filter_var($url, FILTER_VALIDATE_URL);
     }
 
+    /**
+     * Pour savoir si le folder d'output est existant/si on peut écrire
+     * @return void
+     */
     private function check_outuput_folder()
     {
         if (!is_dir($this->download_path)) {
-            //Folder doesn't exist
             if (!mkdir($this->download_path, 0775)) {
                 $this->errors[] = "Output folder doesn't exist and creation failed !";
             }
         } else {
-            //Exists but can I write ?
             if (!is_writable($this->download_path)) {
                 $this->errors[] = "Output folder isn't writable !";
             }
         }
     }
 
+    /**
+     * Pour download une vidéo
+     * @return void
+     */
     private function do_download()
     {
         $cmd = "youtube-dl";

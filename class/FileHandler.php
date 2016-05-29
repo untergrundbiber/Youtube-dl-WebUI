@@ -11,6 +11,10 @@ class FileHandler
         $this->config = require dirname(__DIR__) . '/config/config.php';
     }
 
+    /**
+     * Liste toutes les vidéos correspondant au pattern
+     * @return array Array contenant les vidéos
+     */
     public function listVideos()
     {
         $videos = [];
@@ -32,6 +36,10 @@ class FileHandler
         return $videos;
     }
 
+    /**
+     * Liste toutes les musiques correspondant au pattern
+     * @return array Array contenant les musiques
+     */
     public function listMusics()
     {
         $musics = [];
@@ -53,6 +61,12 @@ class FileHandler
         return $musics;
     }
 
+    /**
+     * Supprime un fichier
+     * @param  int    $id   Numéro du fichier à supprimer
+     * @param  string $type Catégorie du fichier à supprimer
+     * @return void       
+     */
     public function delete($id, $type)
     {
         $folder = $this->get_downloads_folder() . '/';
@@ -74,6 +88,10 @@ class FileHandler
         }
     }
 
+    /**
+     * Vérifications de base
+     * @return boolean Folder existe ou pas (Et si on arrive à le créer)
+     */
     private function outuput_folder_exists()
     {
         if (!is_dir($this->get_downloads_folder())) {
@@ -85,6 +103,12 @@ class FileHandler
         return true;
     }
 
+    /**
+     * Convertit la taille d'un fichier en une valeur compréhensible
+     * @param  integer $bytes    Taille du fichier (en bytes)
+     * @param  integer $decimals Nombre de décimales souhaitées
+     * @return string            Taille du fichier compréhensible
+     */
     public function to_human_filesize($bytes, $decimals = 0)
     {
         $sz     = 'BKMGTP';
@@ -92,11 +116,19 @@ class FileHandler
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
     }
 
+    /**
+     * Connaitre son espace libre
+     * @return string Espace libre
+     */
     public function free_space()
     {
         return $this->to_human_filesize(disk_free_space($this->get_downloads_folder()));
     }
 
+    /**
+     * Chemin absolu du dossier de downloads
+     * @return string Path du folder de downloads
+     */
     public function get_downloads_folder()
     {
         $path = $this->config["outputFolder"];

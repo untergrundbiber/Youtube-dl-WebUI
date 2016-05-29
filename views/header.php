@@ -4,8 +4,8 @@
 		<meta charset="utf-8">
 		<title>Youtube-dl WebUI</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
-		<link rel="stylesheet" href="//releases.flowplayer.org/6.0.5/skin/functional.css">
-		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/flowplayer.functional.css">
+		<link rel="stylesheet" href="css/font-awesome.min.css">
 	</head>
 	<body>
 		<div class="navbar navbar-default">
