@@ -3,8 +3,8 @@
 class FileHandler
 {
     private $config     = [];
-    private $videos_ext = ".{avi,mp4,flv,webm}";
-    private $musics_ext = ".{mp3,ogg,m4a}";
+    private $videos_ext = ".{avi,mp4,flv,webm,mkv}";
+    private $musics_ext = ".{mp3,ogg,m4a,flac}";
 
     public function __construct()
     {
@@ -77,9 +77,8 @@ class FileHandler
     private function outuput_folder_exists()
     {
         if (!is_dir($this->get_downloads_folder())) {
-            //Folder doesn't exist
             if (!mkdir($this->get_downloads_folder(), 0777)) {
-                return false; //No folder and creation failed
+                return false;
             }
         }
 

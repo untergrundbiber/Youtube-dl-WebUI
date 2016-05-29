@@ -1,5 +1,6 @@
     <?php
 require_once 'class/Session.php';
+require_once 'config/config.php';
 require_once 'class/Downloader.php';
 require_once 'class/FileHandler.php';
 
@@ -34,25 +35,30 @@ require_once 'views/header.php';
 			<table class="table table-striped table-hover ">
 				<thead>
 					<tr>
-						<th style="min-width:800px; height:35px">Title</th>
+						<th style="min-width:300px; height:35px">Title</th>
 						<th style="min-width:80px">Size</th>
-						<th style="min-width:110px">Delete link</th>
+                        <th style="min-width:110px">Delete link</th>
+						<th style="min-width:220px">Stream</th>
 					</tr>
 				</thead>
 				<tbody>
     			<?php
                 $i         = 0;
-                $totalSize = 0;
-
-                foreach ($files as $f) {
-                    echo "<tr>";
-                    echo "<td><a href=\"".$file->get_downloads_folder().'/'.$f["name"]."\" download>".$f["name"]."</a></td>";
-                    echo "<td>".$f["size"]."</td>";
-                    echo "<td><a href=\"./list.php?delete=$i&type=$t\" class=\"btn btn-danger btn-sm\">Delete</a></td>";
-                    echo "</tr>";
-                    $i++;
-                }
-                ?>
+                foreach ($files as $f): ?>
+                    <tr>
+                        <td><a href="<?php echo $file->get_downloads_folder().'/'.$f["name"]; ?>" download>"<?php echo $f["name"]; ?>"</a></td>
+                        <td><?php echo $f["size"]; ?></td>
+                        <td><a href="./list.php?delete=<?php echo $i; ?>&type=<?php echo $t; ?>" class="btn btn-danger btn-sm">Delete</a></td>
+                        <td>
+                            <div class="flowplayer">
+                                <video>
+                                    <source type="video/mp4" src="<?php echo $config['outputFolder'].'/'.$f['name']; ?>">
+                                </video>
+                            </div>
+                        </td>
+                    </tr>
+                <?php $i++; ?>
+                <?php endforeach; ?>
 				</tbody>
 			</table>
 			<br/>
@@ -68,6 +74,4 @@ require_once 'views/header.php';
         ?>
 			<br/>
 		</div><!-- End container -->
-<?php
-    require 'views/footer.php';
-?>
+<?php require 'views/footer.php'; ?>
