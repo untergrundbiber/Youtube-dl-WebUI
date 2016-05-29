@@ -12,7 +12,7 @@ It supports simultaneous downloads in background.
 
 ## Requirements
 - A web server (Apache or nginx)
-- PHP latest version should be fine.
+- PHP latest version should be fine. (At least 5.4)
 - Python 2.7 for Youtube-dl
 - [Youtube-dl](https://github.com/rg3/youtube-dl)
 - avconv or other is required for audio extraction (from youtube-dl doc) :
@@ -28,13 +28,13 @@ It supports simultaneous downloads in background.
 ## Set a password
 1. Open config/config.php
 2. Set security to true
-3. Find a password, hash it with md5 and replace the value of password.
+3. Find a password, hash it with sha256 and replace the value of password.
 
 Example (chosen password is root):
 
 ```
-echo -n root|md5sum| sed 's/ .*//'
-# Returns the hash 63a9f0ea7bb98050796b649e85481845
+echo -n root|sha256sum| sed 's/ .*//'
+# Returns the hash 4813494d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b2
 ```
 
 ## CSS Theme
