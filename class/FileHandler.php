@@ -2,13 +2,13 @@
 
 class FileHandler
 {
-    private $config = [];
+    private $config     = [];
     private $videos_ext = ".{avi,mp4,flv,webm}";
     private $musics_ext = ".{mp3,ogg,m4a}";
 
     public function __construct()
     {
-        $this->config = require dirname(__DIR__).'/config/config.php';
+        $this->config = require dirname(__DIR__) . '/config/config.php';
     }
 
     public function listVideos()
@@ -19,13 +19,13 @@ class FileHandler
             return;
         }
 
-        $folder = $this->get_downloads_folder().'/';
+        $folder = $this->get_downloads_folder() . '/';
 
-        foreach (glob($folder.'*'.$this->videos_ext, GLOB_BRACE) as $file) {
-            $video = [];
+        foreach (glob($folder . '*' . $this->videos_ext, GLOB_BRACE) as $file) {
+            $video         = [];
             $video["name"] = str_replace($folder, "", $file);
             $video["size"] = $this->to_human_filesize(filesize($file));
-            
+
             $videos[] = $video;
         }
 
@@ -40,13 +40,13 @@ class FileHandler
             return;
         }
 
-        $folder = $this->get_downloads_folder().'/';
+        $folder = $this->get_downloads_folder() . '/';
 
-        foreach (glob($folder.'*'.$this->musics_ext, GLOB_BRACE) as $file) {
-            $music = [];
+        foreach (glob($folder . '*' . $this->musics_ext, GLOB_BRACE) as $file) {
+            $music         = [];
             $music["name"] = str_replace($folder, "", $file);
             $music["size"] = $this->to_human_filesize(filesize($file));
-            
+
             $musics[] = $music;
         }
 
@@ -55,8 +55,8 @@ class FileHandler
 
     public function delete($id, $type)
     {
-        $folder = $this->get_downloads_folder().'/';
-        $i = 0;
+        $folder = $this->get_downloads_folder() . '/';
+        $i      = 0;
 
         if ($type === 'v') {
             $exts = $this->videos_ext;
@@ -66,7 +66,7 @@ class FileHandler
             return;
         }
 
-        foreach (glob($folder.'*'.$exts, GLOB_BRACE) as $file) {
+        foreach (glob($folder . '*' . $exts, GLOB_BRACE) as $file) {
             if ($i == $id) {
                 unlink($file);
             }
@@ -82,13 +82,13 @@ class FileHandler
                 return false; //No folder and creation failed
             }
         }
-        
+
         return true;
     }
 
     public function to_human_filesize($bytes, $decimals = 0)
     {
-        $sz = 'BKMGTP';
+        $sz     = 'BKMGTP';
         $factor = floor((strlen($bytes) - 1) / 3);
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
     }
@@ -100,9 +100,9 @@ class FileHandler
 
     public function get_downloads_folder()
     {
-        $path =  $this->config["outputFolder"];
+        $path = $this->config["outputFolder"];
         if (strpos($path, "/") !== 0) {
-            $path = dirname(__DIR__).'/' . $path;
+            $path = dirname(__DIR__) . '/' . $path;
         }
         return $path;
     }

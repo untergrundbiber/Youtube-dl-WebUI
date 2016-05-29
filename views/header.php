@@ -21,9 +21,7 @@
 					<li><a href="./">Download</a></li>
 					<li><a href="./list.php?type=v">List of videos</a></li>
 					<li><a href="./list.php?type=m">List of songs</a></li>
-					<?php
-                        if ($session->is_logged_in()) {
-                            ?>
+					<?php if ($session->is_logged_in()): ?>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 							<?php if (Downloader::background_jobs() > 0) {
@@ -54,17 +52,12 @@
                             ?>
 						</ul>
 					</li>
-					<?php
-
-                        }
-                    ?>
+					<?php endif; ?>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<?php
-                        if ($session->is_logged_in()) {
-                            echo "<li><a href=\"./logout.php\">Logout</a></li>";
-                        }
-                    ?>
+					<?php if ($session->is_logged_in()): ?>
+                        <li><a href="./logout.php">Logout</a></li>
+					<?php endif; ?>
 				</ul>
 			</div>
 		</div>

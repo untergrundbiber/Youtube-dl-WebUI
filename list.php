@@ -1,37 +1,35 @@
-<?php
-    require_once 'class/Session.php';
-    require_once 'class/Downloader.php';
-    require_once 'class/FileHandler.php';
+    <?php
+require_once 'class/Session.php';
+require_once 'class/Downloader.php';
+require_once 'class/FileHandler.php';
 
-    $session = Session::getInstance();
-    $file = new FileHandler;
+$session = Session::getInstance();
+$file = new FileHandler;
 
-    if (!$session->is_logged_in()) {
-        header("Location: login.php");
+if (!$session->is_logged_in()) {
+    header("Location: login.php");
+}
+
+if (isset($_GET['type']) && !empty($_GET['type'])) {
+    $t = $_GET['type'];
+    if ($t === 'v') {
+        $type = "videos";
+        $files = $file->listVideos();
+    } elseif ($t === 'm') {
+        $type = "musics";
+        $files = $file->listMusics();
     }
+}
 
-    if (isset($_GET['type']) && !empty($_GET['type'])) {
-        $t = $_GET['type'];
-        if ($t === 'v') {
-            $type = "videos";
-            $files = $file->listVideos();
-        } elseif ($t === 'm') {
-            $type = "musics";
-            $files = $file->listMusics();
-        }
-    }
+if ($session->is_logged_in() && isset($_GET["delete"])) {
+    $file->delete($_GET["delete"], $t);
+    header("Location: list.php?type=".$t);
+}
 
-    if ($session->is_logged_in() && isset($_GET["delete"])) {
-        $file->delete($_GET["delete"], $t);
-        header("Location: list.php?type=".$t);
-    }
-
-    require 'views/header.php';
+require_once 'views/header.php';
 ?>
 		<div class="container">
-		<?php
-            if (!empty($files)) {
-                ?>
+		<?php if (!empty($files)) { ?>
 			<h2>List of available <?php echo $type ?> :</h2>
 			<table class="table table-striped table-hover ">
 				<thead>
@@ -42,8 +40,8 @@
 					</tr>
 				</thead>
 				<tbody>
-			<?php
-                $i = 0;
+    			<?php
+                $i         = 0;
                 $totalSize = 0;
 
                 foreach ($files as $f) {
@@ -59,9 +57,8 @@
 			</table>
 			<br/>
 			<br/>
-		<?php
-
-            } else {
+		<?php 
+        } else {
                 if (isset($t) && ($t === 'v' || $t === 'm')) {
                     echo "<br><div class=\"alert alert-warning\" role=\"alert\">No $type !</div>";
                 } else {

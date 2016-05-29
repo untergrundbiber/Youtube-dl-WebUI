@@ -10,7 +10,7 @@ class Session
     {
         session_start();
 
-        $this->config = require dirname(__DIR__).'/config/config.php';
+        $this->config = require dirname(__DIR__) . '/config/config.php';
 
         if ($this->config["security"]) {
             if (!isset($_SESSION["logged_in"])) {
@@ -32,7 +32,7 @@ class Session
 
     public function login($password)
     {
-        if ($this->config["password"] === md5($password)) {
+        if ($this->config["password"] === hash("sha256",$password)) {
             $_SESSION["logged_in"] = true;
             return true;
         } else {

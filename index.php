@@ -1,46 +1,43 @@
 <?php
-    require_once 'class/Session.php';
-    require_once 'class/Downloader.php';
-    require_once 'class/FileHandler.php';
+require_once 'class/Session.php';
+require_once 'class/Downloader.php';
+require_once 'class/FileHandler.php';
 
-    $session = Session::getInstance();
-    $file = new FileHandler;
+$session = Session::getInstance();
+$file    = new FileHandler;
 
-    require 'views/header.php';
+require 'views/header.php';
 
-    if (!$session->is_logged_in()) {
-        header("Location: login.php");
-    } else {
-        if (isset($_GET['kill']) && !empty($_GET['kill']) && $_GET['kill'] === "all") {
-            Downloader::kill_them_all();
+if (!$session->is_logged_in()) {
+    header("Location: login.php");
+} else {
+    if (isset($_GET['kill']) && !empty($_GET['kill']) && $_GET['kill'] === "all") {
+        Downloader::kill_them_all();
+    }
+
+    if (isset($_POST['urls']) && !empty($_POST['urls'])) {
+        $audio_only = false;
+
+        if (isset($_POST['audio']) && !empty($_POST['audio'])) {
+            $audio_only = true;
         }
 
-        if (isset($_POST['urls']) && !empty($_POST['urls'])) {
-            $audio_only = false;
-
-            if (isset($_POST['audio']) && !empty($_POST['audio'])) {
-                $audio_only = true;
-            }
-
-            $downloader = new Downloader($_POST['urls'], $audio_only);
-            
-            if (!isset($_SESSION['errors'])) {
-                header("Location: index.php");
-            }
+        $downloader = new Downloader($_POST['urls'], $audio_only);
+        
+        if (!isset($_SESSION['errors'])) {
+            header("Location: index.php");
         }
     }
+}
 ?>
 		<div class="container">
 			<h1>Download</h1>
-			<?php
-
-                if (isset($_SESSION['errors']) && $_SESSION['errors'] > 0) {
-                    foreach ($_SESSION['errors'] as $e) {
-                        echo "<div class=\"alert alert-warning\" role=\"alert\">$e</div>";
-                    }
-                }
-
-            ?>
+			<?php if (isset($_SESSION['errors']) && $_SESSION['errors'] > 0): ?>
+                <?php foreach ($_SESSION['errors'] as $e): ?>
+                    <div class="alert alert-warning" role="alert"><?php echo $e; ?></div>
+                <?php endforeach; ?>
+                <?php unset($_SESSION['errors']); ?>
+            <?php endif; ?>
 			<form id="download-form" class="form-horizontal" action="index.php" method="post">					
 				<div class="form-group">
 					<div class="col-md-10">
@@ -82,7 +79,4 @@
 				</div>
 			</div>
 		</div>
-<?php
-    unset($_SESSION['errors']);
-    require 'views/footer.php';
-?>
+<?php require 'views/footer.php'; ?>
