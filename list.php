@@ -60,7 +60,7 @@
 					echo "<tr>";
 					if(!$config["Downlaod"]){
 						if($config["Play_Using_Player"]){
-							echo "<td><audio src='".$config["outputFolder"]."/" . $f["name"] . "' controls></audio> &emsp;&emsp;&emsp; <b>" . $f["name"] . "</b></td>";	
+							echo "<td><audio preload='none' src='".$config["outputFolder"]."/" . $f["name"] . "' controls></audio> &emsp;&emsp;&emsp; <b>" . $f["name"] . "</b></td>";	
 						}else{
 							echo "<td><a href='".$config["outputFolder"]."/" . $f["name"] . "'> " . $f["name"] . "</a></td>";	
 						}
