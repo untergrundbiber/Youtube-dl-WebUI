@@ -59,9 +59,13 @@
 				{
 					echo "<tr>";
 					if(!$config["Downlaod"]){
-						echo "<td><a href='".$config["outputFolder"]."/" . $f["name"] . "'> " . $f["name"] . "</a></td>";	
+						if($config["Play_Using_Player"]){
+							echo "<td><audio src='".$config["outputFolder"]."/" . $f["name"] . "' controls></audio> &emsp;&emsp;&emsp; <b>" . $f["name"] . "</b></td>";	
+						}else{
+							echo "<td><a href='".$config["outputFolder"]."/" . $f["name"] . "'> " . $f["name"] . "</a></td>";	
+						}
 					}else{
-						echo "<td><a href=\"".$config["outputFolder"].'/'.$f["name"]."\" download>".$f["name"]."</a></td>";
+						echo "<td><a href=\"".$config["outputFolder"].'/'. $f["name"]."\" download>".$f["name"]."</a></td>";
 					}
 					echo "<td>".$f["size"]."</td>";
 					echo "<td><a href=\"./list.php?delete=$i&type=$t\" class=\"btn btn-danger btn-sm\">Delete</a></td>";
