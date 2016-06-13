@@ -20,8 +20,11 @@ class FileHandler
 			return;
 
 		$folder = $this->get_downloads_folder().'/';
+	
+		$files =glob($folder.'*'.$this->videos_ext, GLOB_BRACE);
+                usort($files, create_function('$a,$b', 'return filemtime($a) - filemtime($b);'));
 
-		foreach(glob($folder.'*'.$this->videos_ext, GLOB_BRACE) as $file)
+                foreach($files as $file)
 		{
 			$video = [];
 			$video["name"] = str_replace($folder, "", $file);
@@ -42,7 +45,10 @@ class FileHandler
 
 		$folder = $this->get_downloads_folder().'/';
 
-		foreach(glob($folder.'*'.$this->musics_ext, GLOB_BRACE) as $file)
+		$files = glob($folder.'*'.$this->musics_ext, GLOB_BRACE);
+                usort($files, create_function('$a,$b', 'return filemtime($a) - filemtime($b);'));
+
+                foreach($files as $file)
 		{
 			$music = [];
 			$music["name"] = str_replace($folder, "", $file);
