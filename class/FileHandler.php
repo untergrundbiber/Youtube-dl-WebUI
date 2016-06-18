@@ -119,6 +119,7 @@ class FileHandler
     /**
      * Connaitre son espace libre
      * @return string Espace libre
+     * Return 0 si le folder de downloads n'existe pas
      */
     public function free_space()
     {
