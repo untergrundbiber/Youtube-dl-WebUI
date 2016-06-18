@@ -84,7 +84,8 @@ class Downloader
      */
     public static function background_jobs()
     {
-        return shell_exec("ps aux | grep -v grep | grep -v \"youtube-dl -U\" | grep youtube-dl -c");
+        $count = shell_exec("ps aux | grep -v grep | grep -v \"youtube-dl -U\" | grep youtube-dl -c");
+        return (int) trim(preg_replace('/\s\s+/', ' ', $count));
     }
 
     /**
