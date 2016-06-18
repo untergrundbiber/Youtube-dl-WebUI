@@ -202,7 +202,7 @@ class Downloader
      */
     private function is_valid_url($url)
     {
-        return filter_var($url, FILTER_VALIDATE_URL);
+        return filter_var(trim($url), FILTER_VALIDATE_URL);
     }
 
     /**
@@ -233,7 +233,7 @@ class Downloader
         $cmd .= escapeshellarg("%(title)s-%(uploader)s.%(ext)s");
 
         if ($this->audio_only) {
-            $cmd .= " -x ";
+            $cmd .= " -x --extract-audio --audio-format mp3";
         }
 
         foreach ($this->urls as $url) {

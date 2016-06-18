@@ -35,14 +35,14 @@ if (!$session->is_logged_in()) {
 			<h1>Download</h1>
 			<?php if (isset($_SESSION['errors']) && $_SESSION['errors'] > 0): ?>
                 <?php foreach ($_SESSION['errors'] as $e): ?>
-                    <div class="alert alert-warning" role="alert"><?php echo $e; ?></div>
+                    <div class="alert alert-warning" role="alert"><?= $e; ?></div>
                 <?php endforeach; ?>
                 <?php unset($_SESSION['errors']); ?>
             <?php endif; ?>
 			<form id="download-form" class="form-horizontal" action="index.php" method="post">					
 				<div class="form-group">
 					<div class="col-md-10">
-						<input class="form-control" id="url" name="urls" placeholder="Link(s) separated by a comma" type="text">
+						<input class="form-control" id="url" name="urls" placeholder="Link(s) separated by a comma" type="text" required>
 					</div>
 					<div class="col-md-2">
 						<div class="checkbox">
@@ -60,8 +60,8 @@ if (!$session->is_logged_in()) {
 					<div class="panel panel-info">
 						<div class="panel-heading"><h3 class="panel-title">Info</h3></div>
 						<div class="panel-body">
-							<p>Free space : <kbd><?php echo $file->free_space(); ?><kbd></p>
-							<p>Download folder : <kbd><?php echo $file->get_downloads_folder(); ?><kbd></p>
+							<p>Free space : <kbd><?= $file->free_space(); ?><kbd></p>
+							<p>Download folder : <kbd><?= $file->get_downloads_folder(); ?><kbd></p>
 						</div>
 					</div>
 				</div>

@@ -1,7 +1,9 @@
 <?php
-
-//Default password is "root" with md5 hash
-//No "/" at the end of outputFolder
+/**
+ * Default password is "root", with SHA256 hash
+ * No / at the end of outputFolder
+ * outputFolder is a relative path
+ */
 
 $config = [
     "security"     => true,
