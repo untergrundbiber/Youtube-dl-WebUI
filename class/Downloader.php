@@ -7,25 +7,25 @@ class Downloader
      * URL des fichiers à télécharger
      * @var array
      */
-    private $urls          = [];
+    private $urls = [];
 
     /**
      * Config contenant config.php
      * @var array
      */
-    private $config        = [];
+    private $config = [];
 
     /**
      * Download audio only
      * @var boolean
      */
-    private $audio_only    = false;
+    private $audio_only = false;
 
     /**
      * Tableau pour contenir les éventuelles erreurs
      * @var array
      */
-    private $errors        = [];
+    private $errors = [];
 
     /**
      * Chemin de download
@@ -79,18 +79,17 @@ class Downloader
     }
 
     /**
-     * Permet l'affichage des jobs en cours d'exécution en arrière plan
-     * @return integer Nombres de background jobs en cours
+     * Liste tous les backgrounds jobs
+     * @return mix 0 si le shell_exec ne se fait pas, le nombre de process sinon
      */
     public static function background_jobs()
     {
-        $count = shell_exec("ps aux | grep -v grep | grep -v \"youtube-dl -U\" | grep youtube-dl -c");
-        return (int) trim(preg_replace('/\s\s+/', ' ', $count));
+        return shell_exec("ps aux | grep -v grep | grep -v \"youtube-dl -U\" | grep youtube-dl | wc -l");
     }
 
     /**
-     * Nombre de background jobs simultanés possible
-     * @return integer Nombre de jobs simultanés possible
+     * Nombre de backgrounds jobs
+     * @return int Nombre de backgrounds jobs
      */
     public static function max_background_jobs()
     {
@@ -99,8 +98,8 @@ class Downloader
     }
 
     /**
-     * Permet d'obtenir des informations sur les background jobs en cours
-     * @return array Tableau contenant username/pid/time/cmd en cours
+     * Liste les backgrounds jobs
+     * @return array Array avec tous les details
      */
     public static function get_current_background_jobs()
     {
@@ -111,12 +110,12 @@ class Downloader
         if (count($output) > 0) {
             foreach ($output as $line) {
                 $line  = explode(' ', preg_replace("/ +/", " ", $line), 4);
-                $bjs[] = [
+                $bjs[] = array(
                     'user' => $line[0],
                     'pid'  => $line[1],
                     'time' => $line[2],
                     'cmd'  => $line[3],
-                ];
+                );
             }
 
             return $bjs;
@@ -126,8 +125,8 @@ class Downloader
     }
 
     /**
-     * Kill tous les downloads
-     * @return void
+     * Kill tous les processus
+     * @return mix false si marche pas, l'id si ça marche
      */
     public static function kill_them_all()
     {

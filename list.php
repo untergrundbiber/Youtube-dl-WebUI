@@ -1,4 +1,4 @@
-    <?php
+<?php
 require_once 'class/Session.php';
 require_once 'config/config.php';
 require_once 'class/Downloader.php';
@@ -46,7 +46,7 @@ require_once 'views/header.php';
                 $i = 0;
                 foreach ($files as $f): ?>
                     <tr>
-                        <td><a href="<?php echo $file->get_downloads_folder().'/'.$f["name"]; ?>" download>"<?php echo $f["name"]; ?>"</a></td>
+                        <td><a href="<?php echo $config['outputFolder'].'/'.$f['name']; ?>" download>"<?php echo $f["name"]; ?>"</a></td>
                         <td><?php echo $f["size"]; ?></td>
                         <td><a href="./list.php?delete=<?php echo $i; ?>&type=<?php echo $t; ?>" class="btn btn-danger btn-sm">Delete</a></td>
                         <td>
