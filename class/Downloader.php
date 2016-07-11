@@ -12,7 +12,7 @@ class Downloader
 	public function __construct($post, $audio_only)
 	{
 		$this->config = require dirname(__DIR__).'/config/config.php';
-		
+
 		$this->download_path = (new FileHandler())->get_downloads_folder();
 
 		$this->audio_only = $audio_only;
@@ -126,7 +126,7 @@ class Downloader
 			$this->errors[] = "Youtube-dl is not installed, see <a>https://rg3.github.io/youtube-dl/download.html</a> !";
 		}
 
-		$this->check_outuput_folder();
+		$this->check_output_folder();
 
 		if($audio_only)
 		{
@@ -162,12 +162,12 @@ class Downloader
 		return filter_var($url, FILTER_VALIDATE_URL);
 	}
 
-	private function check_outuput_folder()
+	private function check_output_folder()
 	{
 		if(!is_dir($this->download_path))
 		{
 			//Folder doesn't exist
-			if(!mkdir($this->download_path, 0775))
+			if(!mkdir($this->download_path, 0755))
 			{
 				$this->errors[] = "Output folder doesn't exist and creation failed !";
 			}

@@ -15,7 +15,7 @@ class FileHandler
 	{
 		$videos = [];
 
-		if(!$this->outuput_folder_exists())
+		if(!$this->output_folder_exists())
 			return;
 
 		$folder = $this->get_downloads_folder().'/';
@@ -25,7 +25,7 @@ class FileHandler
 			$video = [];
 			$video["name"] = str_replace($folder, "", $file);
 			$video["size"] = $this->to_human_filesize(filesize($file));
-			
+
 			$videos[] = $video;
 		}
 
@@ -36,7 +36,7 @@ class FileHandler
 	{
 		$musics = [];
 
-		if(!$this->outuput_folder_exists())
+		if(!$this->output_folder_exists())
 			return;
 
 		$folder = $this->get_downloads_folder().'/';
@@ -46,7 +46,7 @@ class FileHandler
 			$music = [];
 			$music["name"] = str_replace($folder, "", $file);
 			$music["size"] = $this->to_human_filesize(filesize($file));
-			
+
 			$musics[] = $music;
 		}
 
@@ -81,17 +81,17 @@ class FileHandler
 		}
 	}
 
-	private function outuput_folder_exists()
+	private function output_folder_exists()
 	{
 		if(!is_dir($this->get_downloads_folder()))
 		{
 			//Folder doesn't exist
-			if(!mkdir($this->get_downloads_folder(),0777))
+			if(!mkdir($this->get_downloads_folder(),0755))
 			{
 				return false; //No folder and creation failed
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -110,7 +110,7 @@ class FileHandler
 	public function get_downloads_folder()
 	{
                 $path =  $this->config["outputFolder"];
-                if(strpos($path , "/") !== 0) 
+                if(strpos($path , "/") !== 0)
                 {
                         $path = dirname(__DIR__).'/' . $path;
                 }
