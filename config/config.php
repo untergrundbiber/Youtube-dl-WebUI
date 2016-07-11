@@ -1,13 +1,15 @@
 <?php
+/**
+ * Default password is "root", with SHA256 hash
+ * No / at the end of outputFolder
+ * outputFolder is a relative path
+ */
 
-//Default password is "root" with md5 hash
-//No "/" at the end of outputFolder
-
-return array(
-	"security" => true,
-	"password" => "63a9f0ea7bb98050796b649e85481845",
-	"outputFolder" => "downloads",
-	"extracter" => "avconv",
-	"max_dl" => 3);
-
-?>
+$config = [
+    "security"     => true,
+    "password"     => "4813494d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b2",
+    "outputFolder" => "downloads",
+    "extracter"    => "avconv",
+    "max_dl"       => 3,
+];
+return $config;

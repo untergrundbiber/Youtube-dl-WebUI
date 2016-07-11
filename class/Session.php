@@ -2,63 +2,81 @@
 
 class Session
 {
-	private $config = [];
+    /**
+     * Stock les variables de configurations présentes dans config.php
+     * @var array
+     */
+    private $config = [];
 
-	private static $_instance;
+    /**
+     * Instance de Session
+     * @var [type]
+     */
+    private static $_instance;
 
-	public function __construct()
-	{
-		session_start();
+    /**
+     * Constructeur de Session
+     */
+    public function __construct()
+    {
+        session_start();
 
-		$this->config = require dirname(__DIR__).'/config/config.php';
+        $this->config = require dirname(__DIR__) . '/config/config.php';
 
-		if($this->config["security"])
-		{
-			if(!isset($_SESSION["logged_in"]))
-			{
-				$_SESSION["logged_in"] = false;
-			}
-		}
-		else
-		{
-			$_SESSION["logged_in"] = true;
-		}
-	}
+        if ($this->config["security"]) {
+            if (!isset($_SESSION["logged_in"])) {
+                $_SESSION["logged_in"] = false;
+            }
+        } else {
+            $_SESSION["logged_in"] = true;
+        }
+    }
 
-	public static function getInstance()
-	{
-		if(is_null(self::$_instance))
-		{
-			self::$_instance = new Session();
-		}
+    /**
+     * Permet de retourner une instance de Session
+     * @return POO Instance de Session
+     */
+    public static function getInstance()
+    {
+        if (is_null(self::$_instance)) {
+            self::$_instance = new Session();
+        }
 
-		return self::$_instance;
-	}
+        return self::$_instance;
+    }
 
-	public function login($password)
-	{
-		if($this->config["password"] === md5($password))
-		{
-			$_SESSION["logged_in"] = true;
-			return true;
-		}
-		else
-		{
-			$_SESSION["logged_in"] = false;
-			return false;
-		}
-	}
+    /**
+     * Connexion
+     * @param  string $password Password
+     * @return boolean          Connecté ou pas
+     */
+    public function login($password)
+    {
+        if ($this->config["password"] === hash("sha256",$password)) {
+            $_SESSION["logged_in"] = true;
+            return true;
+        } else {
+            $_SESSION["logged_in"] = false;
+            return false;
+        }
+    }
 
-	public function is_logged_in()
-	{
-		return $_SESSION["logged_in"];
-	}
+    /**
+     * Savoir si on est déjà connectés
+     * @return boolean Connecté ou déconnecté
+     */
+    public function is_logged_in()
+    {
+        return $_SESSION["logged_in"];
+    }
 
-	public function logout()
-	{
-		$_SESSION = array();
-		session_destroy();
-	}
+    /**
+     * Permet de se déconnecter
+     * @return void 
+     */
+    public function logout()
+    {
+        unset($_SESSION);
+        session_destroy();
+    }
 }
-
-?>
