@@ -30,6 +30,10 @@ It supports simultaneous downloads in background.
 2. Set security to true
 3. Find a password, hash it with md5 and replace the value of password.
 
+## Troubleshooting
+1. If you don't want a password set `security` to false
+2. If you have problems downloading files, check the permissions and try setting `indirect_download` to true
+
 Example (chosen password is root):
 
 ```

@@ -56,7 +56,14 @@
 				foreach($files as $f)
 				{
 					echo "<tr>";
-					echo "<td><a href=\"".$file->get_downloads_folder().'/'.$f["name"]."\" download>".$f["name"]."</a></td>";
+					if ($session->config["indirect_download"])
+					{
+						echo "<td><a href=\"getfile.php?file=".urlencode($f["name"])."\" download>".$f["name"]."</a></td>";
+					} 
+					else 
+					{
+						echo "<td><a href=\"".$file->get_downloads_folder().'/'.$f["name"]."\" download>".$f["name"]."</a></td>";
+					}
 					echo "<td>".$f["size"]."</td>";
 					echo "<td><a href=\"./list.php?delete=$i&type=$t\" class=\"btn btn-danger btn-sm\">Delete</a></td>";
 					echo "</tr>";

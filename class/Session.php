@@ -2,7 +2,7 @@
 
 class Session
 {
-	private $config = [];
+	public $config = [];
 
 	private static $_instance;
 
