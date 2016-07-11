@@ -2,6 +2,7 @@
 
 //Default password is "root" with md5 hash
 //No "/" at the end of outputFolder
+//outputFolder must be a relative path
 
 return array(
 	"security" => true,
