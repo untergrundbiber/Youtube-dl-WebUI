@@ -4,7 +4,8 @@ class FileHandler
 {
 	private $config = [];
 	private $videos_ext = ".{avi,mp4,flv,webm}";
-	private $musics_ext = ".{mp3,ogg,m4a}";
+	private $musics_ext = ".{mp3,ogg,m4a,opus}";
+	private $text_ext = ".{txt}";
 
 	public function __construct()
 	{
@@ -19,8 +20,11 @@ class FileHandler
 			return;
 
 		$folder = $this->get_downloads_folder().'/';
+	
+		$files =glob($folder.'*'.$this->videos_ext, GLOB_BRACE);
+                usort($files, create_function('$a,$b', 'return filemtime($a) - filemtime($b);'));
 
-		foreach(glob($folder.'*'.$this->videos_ext, GLOB_BRACE) as $file)
+                foreach($files as $file)
 		{
 			$video = [];
 			$video["name"] = str_replace($folder, "", $file);
@@ -41,7 +45,10 @@ class FileHandler
 
 		$folder = $this->get_downloads_folder().'/';
 
-		foreach(glob($folder.'*'.$this->musics_ext, GLOB_BRACE) as $file)
+		$files = glob($folder.'*'.$this->musics_ext, GLOB_BRACE);
+                usort($files, create_function('$a,$b', 'return filemtime($a) - filemtime($b);'));
+
+                foreach($files as $file)
 		{
 			$music = [];
 			$music["name"] = str_replace($folder, "", $file);
@@ -51,6 +58,27 @@ class FileHandler
 		}
 
 		return $musics;
+	}	
+	
+	public function listLogFiles()
+	{
+		$logs = [];
+
+		if(!$this->outuput_folder_exists())
+			return;
+
+		$folder = dirname(__DIR__).'/log/';
+
+		foreach(glob($folder.'*', GLOB_BRACE) as $file)
+		{
+			$log = [];
+			$log["name"] = str_replace($folder, "", $file);
+			$log["size"] = $this->to_human_filesize(filesize($file));
+			
+			$logs[] = $log;
+		}
+
+		return $logs;
 	}
 
 	public function delete($id, $type)
@@ -65,6 +93,11 @@ class FileHandler
 		elseif($type === 'm')
 		{
 			$exts = $this->musics_ext;
+		}
+		elseif($type === 't')
+		{
+			$folder = dirname(__DIR__).'/' . "log/";
+			$exts = $this->text_ext;
 		}
 		else
 		{

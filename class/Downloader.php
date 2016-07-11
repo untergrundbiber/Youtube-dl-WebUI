@@ -190,7 +190,7 @@ class Downloader
 
 		if($this->audio_only)
 		{
-			$cmd .= " -x ";
+			$cmd .= " -x --audio-format mp3 ";
 		}
 
 		foreach($this->urls as $url)
@@ -199,7 +199,7 @@ class Downloader
 		}
 
 		$cmd .= " --restrict-filenames"; // --restrict-filenames is for specials chars
-		$cmd .= " > /dev/null & echo $!";
+		$cmd .= " > " . dirname(__DIR__) . "/log/$$.txt &";
 
 		shell_exec($cmd);
 	}
